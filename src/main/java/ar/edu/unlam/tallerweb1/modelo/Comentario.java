@@ -2,11 +2,14 @@ package ar.edu.unlam.tallerweb1.modelo;
 
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
@@ -19,19 +22,28 @@ public class Comentario {
 	
 	@ManyToOne
 	private Publicacion publicacion;
+	@Transient
+	private Long publicacionId;
 	
 	@ManyToOne
 	private Comentario respuesta;
-	
 	@Transient
-	private Long respuestaId;
+	private Long comentarioAResponderId;
+	
+	@ManyToOne
+	private Usuario usuario;	
+	
+	@ManyToMany
+	private  List<Usuario> litadoLikes; 
 
 	private String mensaje;
 	
+	@Column(name="fecha")
 	private Date fechaHora;
 	
 	private Integer cantidadLikes;
 	
+	private ComentarioEstado estado;
 
 	private ComentarioTipo tipo;
 	
@@ -52,14 +64,6 @@ public class Comentario {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Long getRespuestaId() {
-		return respuestaId;
-	}
-
-	public void setRespuestaId(Long respuestaId) {
-		this.respuestaId = respuestaId;
 	}
 
 	public String getMensaje() {
@@ -101,5 +105,46 @@ public class Comentario {
 	public void setPublicacion(Publicacion publicacion) {
 		this.publicacion = publicacion;
 	}
+
+	public ComentarioEstado getEstado() {
+		return estado;
+	}
+
+	public void setEstado(ComentarioEstado estado) {
+		this.estado = estado;
+	}
+	
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public List<Usuario> getLitadoLikes() {
+		return litadoLikes;
+	}
+
+	public void setLitadoLikes(List<Usuario> litadoLikes) {
+		this.litadoLikes = litadoLikes;
+	}
+
+	public Long getPublicacionId() {
+		return publicacionId;
+	}
+
+	public void setPublicacionId(Long publicacionId) {
+		this.publicacionId = publicacionId;
+	}
+
+	public Long getComentarioAResponderId() {
+		return comentarioAResponderId;
+	}
+
+	public void setComentarioAResponderId(Long comentarioAResponderId) {
+		this.comentarioAResponderId = comentarioAResponderId;
+	}
+
 
 }

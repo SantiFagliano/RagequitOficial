@@ -1,9 +1,7 @@
 <%@ include file="header.jsp"%>
-
 <main>
-
     <section class="border-bottom mb-2">
-        <h3>¡Bienvenido a la seccion Biblioteca!</h3>
+        <h3>Bienvenido a la seccion Biblioteca</h3>
     </section>
     <section class="anchoCategoria">
         <form action="biblioteca">
@@ -11,36 +9,41 @@
             <select class="custom-select" name="categoriaId" id="filtro">
                 <option value="-1" selected disabled>Elegir</option>
                 <c:if test="${not empty categorias}">
-                    <c:forEach items="${categorias}" var="categoriaDelFor">
-                        <option value="${categoriaDelFor.getId()}">${categoriaDelFor.getTipoCategoria()}</option>
-                    </c:forEach>
+                    <option value="1">JUEGOS</option>
+                    <option value="2">VARIOS</option>
                 </c:if>
             </select>
             <div class="text-right">
-            <button class="btn btn-naranja mt-3 botonBloque" type="submit">Filtrar</button>
+                <button class="btn btn-naranja mt-3 botonBloque" type="submit">Filtrar</button>
             </div>
         </form>
         <br>
+        <c:if test="${not empty categorias}">
+            <div class="album py-5 contenedorAlbum">
+                <div class="container">
 
-        <div class="album py-5 ">
-            <div class="container">
+                    <div class="row text-center">
 
-                <div class="row">
-                    <c:forEach items="${categorias}" var="categoriaDelFor">
-                        <div class="col-md-4">
-
-                            <div class="card mb-4 borde-naranja">
-                            	<h4 class="text-white">Categoria: </h4>
-                                <p class="text-center text-naranjaClaro">${categoriaDelFor.getNombre()}</p>
+                        <c:forEach items="${categorias}" var="categoriaDelFor">
+                            <div class="col-12 col-md-4">
+                                <div style="height: fit-content;">
+                                    <div class="divImagenBiblioteca">
+                                        <a href="juegosOVarios?categoriaId=${categoriaDelFor.getId()}">
+                                            <img class="imagenBiblioteca text-center borde-naranja"
+                                                src="${categoriaDelFor.getUrlImagen()}">
+                                            <div class="nombreYCategoria nombreYCategoriaDesenfoque">
+                                                <h2 class="nombreDeCategoria">${categoriaDelFor.getNombre()}</h2>
+                                                <p class="tipoCategoria">${categoriaDelFor.getTipoCategoria()}</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </c:forEach>
+                        </c:forEach>
+                    </div>
                 </div>
             </div>
-        </div>
+        </c:if>
     </section>
-
-
 </main>
-
 <%@ include file="footer.jsp"%>

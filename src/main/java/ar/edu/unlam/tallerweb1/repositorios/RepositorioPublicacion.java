@@ -1,6 +1,5 @@
 package ar.edu.unlam.tallerweb1.repositorios;
 
-import java.util.Date;
 import java.util.List;
 
 import ar.edu.unlam.tallerweb1.modelo.Categoria;
@@ -14,7 +13,7 @@ public interface RepositorioPublicacion {
 
 	List<Publicacion> buscarPublicaciones();
 	
-	Publicacion obtenerPublicacion(Long id);
+	Publicacion obtenerPublicacionPorId(Long id);
 
 	void borrarPublicacion(Long id);
 
