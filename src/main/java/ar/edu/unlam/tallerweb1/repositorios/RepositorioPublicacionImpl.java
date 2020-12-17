@@ -9,50 +9,50 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
+import ar.edu.unlam.tallerweb1.modelo.Categoria;
 import ar.edu.unlam.tallerweb1.modelo.Publicacion;
+import ar.edu.unlam.tallerweb1.modelo.Usuario;
 
 @Repository
 public class RepositorioPublicacionImpl implements RepositorioPublicacion {
 
 	@Inject
 	private SessionFactory sessionFactory;
-	
+
 	@Override
 	public Long guardarPublicacion(Publicacion publicacion) {
 		Session session = sessionFactory.getCurrentSession();
-		return (Long)session.save(publicacion);
+		return (Long) session.save(publicacion);
 	}
 
 	@Override
-	public List<Publicacion> buscarPublicacionesPorCategoria(String categoria) {
-		return sessionFactory.getCurrentSession()
-				.createCriteria(Publicacion.class)
-				.add(Restrictions.eq("categoria", categoria))
-				.list();
+	public List<Publicacion> buscarPublicacionesPorCategoria(Categoria categoria) {
+		return sessionFactory.getCurrentSession().createCriteria(Publicacion.class)
+				.add(Restrictions.eq("categoria", categoria)).list();
 	}
 
 	@Override
 	public List<Publicacion> buscarPublicaciones() {
-		return sessionFactory.getCurrentSession()
-				.createCriteria(Publicacion.class)
-				.list();
+		return sessionFactory.getCurrentSession().createCriteria(Publicacion.class).list();
 	}
-	
+
 	@Override
-	public Publicacion obtenerPublicacion(Long id) {
-		
+	public Publicacion obtenerPublicacionPorId(Long id) {
+
 		return sessionFactory.getCurrentSession().get(Publicacion.class, id);
 	}
 
 	@Override
 	public void borrarPublicacion(Long id) {
-		Publicacion publicacion = obtenerPublicacion(id);
+		Publicacion publicacion = obtenerPublicacionPorId(id);
 		sessionFactory.getCurrentSession().delete(publicacion);
-		
+
 	}
 
-	
-	
-	
+	@Override
+	public List<Publicacion> devolverUnaListaDePublicacionesHechasPorUnUsuario(Usuario usuario) {
+		return sessionFactory.getCurrentSession().createCriteria(Publicacion.class)
+				.add(Restrictions.eq("usuario", usuario)).list();
+	}
 
 }

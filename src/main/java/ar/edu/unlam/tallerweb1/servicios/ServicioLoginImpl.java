@@ -18,22 +18,26 @@ import ar.edu.unlam.tallerweb1.modelo.Usuario;
 @Service("servicioLogin")
 @Transactional
 public class ServicioLoginImpl implements ServicioLogin {
-
+	@Inject
 	private RepositorioUsuario servicioLoginDao;
 
+	@Inject
+	private ServicioUsuario servicioUsuario;
+
 	@Autowired
-	public ServicioLoginImpl(RepositorioUsuario servicioLoginDao){
+	public ServicioLoginImpl(RepositorioUsuario servicioLoginDao) {
 		this.servicioLoginDao = servicioLoginDao;
 	}
 
 	@Override
-	public Usuario consultarUsuario (Usuario usuario) {
+	public Usuario consultarUsuario(Usuario usuario) {
 		return servicioLoginDao.consultarUsuario(usuario);
 	}
 
 	@Override
 	public void registrarUsuario(Usuario usuario) {
-		servicioLoginDao.registrarUsuario(usuario);		
+		usuario.setPassword(servicioUsuario.encriptarPassword(usuario.getPassword()));
+		servicioLoginDao.registrarUsuario(usuario);
 	}
 
 }

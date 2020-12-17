@@ -1,46 +1,60 @@
 package ar.edu.unlam.tallerweb1.modelo;
 
-
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 @Entity
-public /*abstrat*/  class Comentario {  /* asbtract para clases que por si solas no existen en la vida real */
-	
-	/* ES UNARIA  DUDA CON EL IMPORT DE DATE*/
-	
+public class Comentario implements Comparable<Comentario> {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@OneToMany (fetch=FetchType.EAGER)
-	private List<Comentario> respuesta;
-	
+
 	@ManyToOne
 	private Publicacion publicacion;
+	@Transient
+	private Long publicacionId;
+
+	@ManyToOne
+	private Comentario respuesta;
+	@Transient
+	private Long comentarioAResponderId;
+
+	@ManyToOne
+	private Usuario usuario;
+
+	@ManyToMany
+	private List<Usuario> litadoLikes;
 
 	private String mensaje;
-	
-	@Column(name="fecha_hora")
+
+	@Column(name = "fecha")
 	private Date fechaHora;
-	
-	@Column(name="cantidad_likes")
+
 	private Integer cantidadLikes;
-	
-	@Column(name="tipo_de_comentario")
-	private ComentarioTipo tipo;
-	
+
+	private ComentarioEstado estado;
+
+	private Integer cantidadRespuesta;
+
 	/* ---------- GETERS AND SETERS ---------- */
 
+	public Comentario getRespuesta() {
+		return respuesta;
+	}
+
+	public void setRespuesta(Comentario respuesta) {
+		this.respuesta = respuesta;
+	}
 
 	public Long getId() {
 		return id;
@@ -48,14 +62,6 @@ public /*abstrat*/  class Comentario {  /* asbtract para clases que por si solas
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public List<Comentario> getRespuesta() {
-		return respuesta;
-	}
-
-	public void setRespuesta(List<Comentario> respuesta) {
-		this.respuesta = respuesta;
 	}
 
 	public String getMensaje() {
@@ -82,14 +88,6 @@ public /*abstrat*/  class Comentario {  /* asbtract para clases que por si solas
 		this.cantidadLikes = cantidadLikes;
 	}
 
-	public ComentarioTipo getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(ComentarioTipo tipo) {
-		this.tipo = tipo;
-	}
-	
 	public Publicacion getPublicacion() {
 		return publicacion;
 	}
@@ -98,5 +96,57 @@ public /*abstrat*/  class Comentario {  /* asbtract para clases que por si solas
 		this.publicacion = publicacion;
 	}
 
-		
+	public ComentarioEstado getEstado() {
+		return estado;
+	}
+
+	public void setEstado(ComentarioEstado estado) {
+		this.estado = estado;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public List<Usuario> getLitadoLikes() {
+		return litadoLikes;
+	}
+
+	public void setLitadoLikes(List<Usuario> litadoLikes) {
+		this.litadoLikes = litadoLikes;
+	}
+
+	public Long getPublicacionId() {
+		return publicacionId;
+	}
+
+	public void setPublicacionId(Long publicacionId) {
+		this.publicacionId = publicacionId;
+	}
+
+	public Long getComentarioAResponderId() {
+		return comentarioAResponderId;
+	}
+
+	public void setComentarioAResponderId(Long comentarioAResponderId) {
+		this.comentarioAResponderId = comentarioAResponderId;
+	}
+
+	@Override
+	public int compareTo(Comentario comentario) {
+		return this.id.compareTo(comentario.getId());
+	}
+
+	public Integer getCantidadRespuesta() {
+		return cantidadRespuesta;
+	}
+
+	public void setCantidadRespuesta(Integer cantidadRespuesta) {
+		this.cantidadRespuesta = cantidadRespuesta;
+	}
+
 }
